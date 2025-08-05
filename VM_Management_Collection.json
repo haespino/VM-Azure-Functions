@@ -1,0 +1,270 @@
+{
+	"info": {
+		"_postman_id": "12345678-1234-1234-1234-123456789012",
+		"name": "VM Management API",
+		"description": "Colección para gestión de VMs en Azure con validación Pydantic corregida",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Health Check",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{api_key}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/HealthCheck",
+					"host": ["{{base_url}}"],
+					"path": ["HealthCheck"]
+				}
+			}
+		},
+		{
+			"name": "Crear VM",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "x-api-key",
+						"value": "{{api_key}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"test-vm-001\",\n  \"region\": \"eastus\",\n  \"size\": \"Standard_B2s\",\n  \"tags\": {\n    \"Environment\": \"Development\",\n    \"Project\": \"VM-Management\"\n  },\n  \"data_disk\": {\n    \"enabled\": true,\n    \"size_gb\": 100,\n    \"mount_point\": \"/opt/data\",\n    \"auto_setup_sbc\": false\n  }\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/vms",
+					"host": ["{{base_url}}"],
+					"path": ["vms"]
+				}
+			}
+		},
+		{
+			"name": "Crear VM Kyubo",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "x-api-key",
+						"value": "{{api_key}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"tenant\": \"sbc\",\n  \"region\": \"eastus\",\n  \"max_concurrent_sessions\": 50,\n  \"request_id\": \"req-12345\",\n  \"entorno\": \"dev\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/kyubo/vms",
+					"host": ["{{base_url}}"],
+					"path": ["kyubo", "vms"]
+				}
+			}
+		},
+		{
+			"name": "Listar VMs",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{api_key}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/vms",
+					"host": ["{{base_url}}"],
+					"path": ["vms"]
+				}
+			}
+		},
+		{
+			"name": "Obtener VM",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{api_key}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/vms/test-vm-001",
+					"host": ["{{base_url}}"],
+					"path": ["vms", "test-vm-001"]
+				}
+			}
+		},
+		{
+			"name": "Iniciar VM",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{api_key}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/vms/test-vm-001/start",
+					"host": ["{{base_url}}"],
+					"path": ["vms", "test-vm-001", "start"]
+				}
+			}
+		},
+		{
+			"name": "Detener VM",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{api_key}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/vms/test-vm-001/stop",
+					"host": ["{{base_url}}"],
+					"path": ["vms", "test-vm-001", "stop"]
+				}
+			}
+		},
+		{
+			"name": "Reiniciar VM",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{api_key}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/vms/test-vm-001/restart",
+					"host": ["{{base_url}}"],
+					"path": ["vms", "test-vm-001", "restart"]
+				}
+			}
+		},
+		{
+			"name": "Redimensionar VM",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "x-api-key",
+						"value": "{{api_key}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"new_size\": \"Standard_B4ms\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/vms/test-vm-001/resize",
+					"host": ["{{base_url}}"],
+					"path": ["vms", "test-vm-001", "resize"]
+				}
+			}
+		},
+		{
+			"name": "Actualizar VM",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "x-api-key",
+						"value": "{{api_key}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"tags\": {\n    \"Environment\": \"Production\",\n    \"Project\": \"VM-Management\",\n    \"Owner\": \"DevOps\"\n  }\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/vms/test-vm-001",
+					"host": ["{{base_url}}"],
+					"path": ["vms", "test-vm-001"]
+				}
+			}
+		},
+		{
+			"name": "Eliminar VM",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{api_key}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/vms/test-vm-001",
+					"host": ["{{base_url}}"],
+					"path": ["vms", "test-vm-001"]
+				}
+			}
+		},
+		{
+			"name": "Obtener Clave SSH",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{api_key}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/vms/test-vm-001/ssh-key",
+					"host": ["{{base_url}}"],
+					"path": ["vms", "test-vm-001", "ssh-key"]
+				}
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:7071/api",
+			"type": "string"
+		},
+		{
+			"key": "api_key",
+			"value": "your-api-key-here",
+			"type": "string"
+		}
+	]
+}
