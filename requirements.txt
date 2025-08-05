@@ -9,7 +9,7 @@ azure-cosmos==4.5.1
 pydantic==1.10.13
 requests==2.31.0
 cryptography==41.0.7
-paramiko==3.3.1
+paramiko==3.4.0
 opencensus-ext-azure==1.1.13
 opencensus-ext-logging==0.1.1
 opencensus-ext-requests==0.8.0
