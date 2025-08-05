@@ -7,7 +7,7 @@ azure-keyvault-secrets==4.7.0
 azure-storage-table==12.4.4
 azure-cosmos==4.5.1
 pydantic==1.10.13
-requests==2.31.0
+requests==2.32.4
 cryptography==41.0.7
 paramiko==3.3.1
 opencensus-ext-azure==1.1.13
