@@ -1,0 +1,239 @@
+{
+  "description": "Ejemplos de payloads corregidos para creación de VMs - Validación Pydantic funcionando",
+  "last_updated": "2025-08-05T20:23:00Z",
+  "status": "validated_and_working",
+  
+  "standard_vm_examples": {
+    "basic_vm": {
+      "description": "VM básica sin disco de datos",
+      "endpoint": "POST /api/vms",
+      "payload": {
+        "name": "test-vm-001",
+        "region": "eastus",
+        "size": "Standard_B2s",
+        "tags": {
+          "Environment": "Development",
+          "Project": "VM-Management"
+        }
+      }
+    },
+    
+    "vm_with_data_disk": {
+      "description": "VM con disco de datos configurado",
+      "endpoint": "POST /api/vms",
+      "payload": {
+        "name": "data-vm-001",
+        "region": "westus2",
+        "size": "Standard_B4ms",
+        "tags": {
+          "Environment": "Production",
+          "Project": "DataProcessing",
+          "Owner": "DataTeam"
+        },
+        "data_disk": {
+          "enabled": true,
+          "size_gb": 200,
+          "mount_point": "/opt/data",
+          "auto_setup_sbc": false
+        }
+      }
+    },
+    
+    "development_vm": {
+      "description": "VM para desarrollo con configuración mínima",
+      "endpoint": "POST /api/vms",
+      "payload": {
+        "name": "dev-vm-002",
+        "region": "centralus",
+        "size": "Standard_B1s",
+        "tags": {
+          "Environment": "Development",
+          "Project": "WebApp",
+          "Developer": "john.doe"
+        }
+      }
+    },
+    
+    "production_vm": {
+      "description": "VM para producción con alta disponibilidad",
+      "endpoint": "POST /api/vms",
+      "payload": {
+        "name": "prod-vm-001",
+        "region": "eastus2",
+        "size": "Standard_D4s_v3",
+        "tags": {
+          "Environment": "Production",
+          "Project": "CriticalApp",
+          "Tier": "Frontend",
+          "Backup": "Required"
+        },
+        "data_disk": {
+          "enabled": true,
+          "size_gb": 500,
+          "mount_point": "/opt/app",
+          "auto_setup_sbc": false
+        }
+      }
+    }
+  },
+  
+  "kyubo_vm_examples": {
+    "basic_kyubo": {
+      "description": "VM Kyubo básica para desarrollo",
+      "endpoint": "POST /api/kyubo/vms",
+      "payload": {
+        "tenant": "sbc",
+        "region": "eastus",
+        "max_concurrent_sessions": 25,
+        "request_id": "dev-req-001",
+        "entorno": "dev"
+      }
+    },
+    
+    "testing_kyubo": {
+      "description": "VM Kyubo para testing con más sesiones",
+      "endpoint": "POST /api/kyubo/vms",
+      "payload": {
+        "tenant": "sbc",
+        "region": "westus2",
+        "max_concurrent_sessions": 50,
+        "request_id": "test-req-002",
+        "entorno": "test"
+      }
+    },
+    
+    "production_kyubo": {
+      "description": "VM Kyubo para producción con máximas sesiones",
+      "endpoint": "POST /api/kyubo/vms",
+      "payload": {
+        "tenant": "sbc",
+        "region": "eastus2",
+        "max_concurrent_sessions": 100,
+        "request_id": "prod-req-003",
+        "entorno": "prod"
+      }
+    },
+    
+    "staging_kyubo": {
+      "description": "VM Kyubo para staging",
+      "endpoint": "POST /api/kyubo/vms",
+      "payload": {
+        "tenant": "sbc",
+        "region": "centralus",
+        "max_concurrent_sessions": 75,
+        "request_id": "staging-req-004",
+        "entorno": "staging"
+      }
+    }
+  },
+  
+  "field_corrections": {
+    "description": "Correcciones realizadas en los nombres de campos",
+    "before_after": {
+      "vm_name": "name",
+      "location": "region", 
+      "vm_size": "size",
+      "max_sessions": "max_concurrent_sessions"
+    },
+    "validation_status": "✅ All fields validated with Pydantic models"
+  },
+  
+  "supported_values": {
+    "regions": [
+      "eastus",
+      "westus",
+      "westus2",
+      "centralus",
+      "eastus2",
+      "westeurope",
+      "northeurope"
+    ],
+    
+    "vm_sizes": [
+      "Standard_B1s",
+      "Standard_B2s",
+      "Standard_B4ms",
+      "Standard_D2s_v3",
+      "Standard_D4s_v3"
+    ],
+    
+    "environments": [
+      "dev",
+      "test",
+      "staging",
+      "prod"
+    ],
+    
+    "data_disk_sizes": {
+      "min_gb": 32,
+      "max_gb": 1023,
+      "recommended": [100, 200, 500, 1000]
+    }
+  },
+  
+  "curl_examples": {
+    "create_standard_vm": {
+      "command": "curl -X POST http://localhost:7071/api/vms",
+      "headers": [
+        "-H \"Content-Type: application/json\"",
+        "-H \"x-api-key: your-api-key-here\""
+      ],
+      "data": "-d '{\"name\": \"test-vm-001\", \"region\": \"eastus\", \"size\": \"Standard_B2s\", \"tags\": {\"Environment\": \"Development\"}}'"
+    },
+    
+    "create_kyubo_vm": {
+      "command": "curl -X POST http://localhost:7071/api/kyubo/vms",
+      "headers": [
+        "-H \"Content-Type: application/json\"",
+        "-H \"x-api-key: your-api-key-here\""
+      ],
+      "data": "-d '{\"tenant\": \"sbc\", \"region\": \"eastus\", \"max_concurrent_sessions\": 50, \"request_id\": \"req-001\", \"entorno\": \"dev\"}'"
+    }
+  },
+  
+  "response_examples": {
+    "successful_vm_creation": {
+      "status": "success",
+      "vm_name": "test-vm-001",
+      "resource_group": "rg-eastus",
+      "public_ip": "20.123.45.67",
+      "admin_username": "svcadmin",
+      "ssh_key_info": {
+        "ssh_key_generated": true,
+        "ssh_key_stored_in_vault": true,
+        "vm_id_for_key_retrieval": "rg-eastus-test-vm-001"
+      },
+      "connection_info": {
+        "ssh_command": "ssh -i <private_key_file> svcadmin@20.123.45.67",
+        "key_retrieval_command": "az keyvault secret show --vault-name key-haec-vm-functions --name ssh-key-rg-eastus-test-vm-001 --query value -o tsv"
+      }
+    },
+    
+    "successful_kyubo_creation": {
+      "status": "success",
+      "vm_name": "dc-kyubo-test-351-sbc-dev-operacional-2025-req-001",
+      "resource_group": "rg-eastus",
+      "public_ip": "20.234.56.78",
+      "admin_username": "svcadmin",
+      "ssh_key_info": {
+        "ssh_key_generated": true,
+        "ssh_key_stored_in_vault": true,
+        "vm_id_for_key_retrieval": "rg-eastus-dc-kyubo-test-351-sbc-dev-operacional-2025-req-001"
+      },
+      "sbc_config": {
+        "mount_point": "/opt/sbc_deploy",
+        "max_sessions": 50,
+        "auto_setup_completed": true
+      }
+    }
+  },
+  
+  "validation_notes": {
+    "pydantic_status": "✅ All validations working correctly",
+    "ssh_key_management": "✅ Automatic SSH key generation and storage",
+    "rocky_linux_9": "✅ Default OS configured",
+    "api_key_auth": "✅ API Key authentication working",
+    "last_successful_test": "2025-08-05T20:23:00Z",
+    "test_vm_created": "dc-kyubo-test-351-sbc-dev-operacional-2025-req-ee2d"
+  }
+}
